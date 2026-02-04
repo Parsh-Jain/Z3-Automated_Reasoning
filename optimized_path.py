@@ -56,19 +56,28 @@ for t in range(T + 1):
 # =========================
 for t in range(T):
     opt.add(
-        Or(
-            And(x[t + 1] == x[t] + 1, y[t + 1] == y[t]),
-            And(x[t + 1] == x[t] - 1, y[t + 1] == y[t]),
-            And(x[t + 1] == x[t], y[t + 1] == y[t] + 1),
-            And(x[t + 1] == x[t], y[t + 1] == y[t] - 1)
+        If(
+            t < t_goal,
+            Or(
+                And(x[t + 1] == x[t] + 1, y[t + 1] == y[t]),
+                And(x[t + 1] == x[t] - 1, y[t + 1] == y[t]),
+                And(x[t + 1] == x[t], y[t + 1] == y[t] + 1),
+                And(x[t + 1] == x[t], y[t + 1] == y[t] - 1)
+            ),
+            And(x[t + 1] == x[t], y[t + 1] == y[t])
         )
     )
+
 
 # =========================
 # GOAL CONDITION
 # =========================
-opt.add(x[t_goal] == gx)
-opt.add(y[t_goal] == gy)
+opt.add(
+    Or([
+        And(t_goal == t, x[t] == gx, y[t] == gy)
+        for t in range(T + 1)
+    ])
+)
 
 # =========================
 # STOP AFTER GOAL
