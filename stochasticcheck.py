@@ -79,8 +79,7 @@ for t in range(T):
 
 opt.add(total_cost == Sum(cost))
 
-# OPTIONAL: If you want only SAT/UNSAT, you can remove minimize also.
-# But keeping it is fine.
+# minimizing the path
 opt.minimize(total_cost)
 
 
