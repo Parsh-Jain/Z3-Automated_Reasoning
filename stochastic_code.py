@@ -1,9 +1,9 @@
 from z3 import *
 import random
 
-# =========================
+
 # CLI INPUT
-# =========================
+
 ROWS = int(input("Enter number of rows: "))
 COLS = int(input("Enter number of columns: "))
 
@@ -20,9 +20,9 @@ for i in range(num_obs):
 
 TRIALS = int(input("Enter number of stochastic trials: "))
 
-# =========================
+
 # BASE OPTIMIZER (STATIC PART)
-# =========================
+
 opt = Optimize()
 
 x = [Int(f"x_{t}") for t in range(T + 1)]
@@ -67,9 +67,9 @@ for t in range(T):
         )
     )
 
-# =========================
+
 # STOCHASTIC TRIALS
-# =========================
+
 for trial in range(1, TRIALS + 1):
 
     # Push a new "random-cost world"
@@ -111,13 +111,13 @@ for trial in range(1, TRIALS + 1):
         tc = m.evaluate(total_cost)
         tc_float = float(tc.as_decimal(10).replace("?", ""))
 
-        print("✅ SAT: Stochastic optimal path found")
+        print("SAT: Stochastic optimal path found")
         print("Goal reached at step:", tg)
         print("Path:", path)
         print("Stochastic Total Cost:", round(tc_float, 4))
 
     else:
-        print("❌ UNSAT in this trial")
+        print(" UNSAT in this trial")
 
     # Pop trial constraints
     opt.pop()
