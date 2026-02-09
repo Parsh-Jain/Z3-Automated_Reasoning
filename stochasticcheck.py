@@ -87,10 +87,18 @@ opt.minimize(total_cost)
 
 result = opt.check()
 
-print("\nRandom step costs (first 10):", [round(v, 3) for v in rand_vals[:10]])
-
 if result == sat:
     print(" SAT: A path exists under this random-cost scenario.")
+    m = opt.model()
+    print("\nRandom step costs (first t_goal):", [round(v, 3) for v in rand_vals[:m[t_goal].as_long()]])
+    path = [(m[x[t]].as_long(), m[y[t]].as_long()) for t in range(T + 1)]
+    print(" Path found:", path)
+    sum = 0
+    for i in range(m[t_goal].as_long()):
+        step_cost = 1.0 + rand_vals[i]
+        sum += step_cost 
+        print(f" Step {i}: cost = {step_cost:.3f}, cumulative cost = {sum:.3f}")
+
 else:
     print(" UNSAT: No path exists under this random-cost scenario.")
 
